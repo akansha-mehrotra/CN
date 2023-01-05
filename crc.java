@@ -1,55 +1,40 @@
 import java.util.*;
-
 public class crc{
     public static int n;
-
-    public static void main(String[] args){
+    public static void main(String[] args)
+    {
         Scanner in=new Scanner(System.in);
         crc ob=new crc();
-
-        String code, copy,zero="0000000000000000";
-
-        System.out.print("Enter poly: ");
+        String code,copy,zero="0000000000000000";
+        System.out.print("Enter polynomial: ");
         code=in.nextLine();
-
         System.out.println("Generating polynomial: 10001000000100001");
-
         n=code.length();
         copy=code;
         code+=zero;
-
-        System.out.println("Modified poly: "+code);
+        System.out.println("Modified polynomial: "+code);
         code=ob.divide(code);
-
         System.out.println("CheckSum: "+code.substring(n));
         copy=copy.substring(0,n)+code.substring(n);
+        String results=copy;
         System.out.println("Final Codeword: "+copy);
-
-        System.out.print("Test Error detection 0(yes) 1(no)? : ");
-        int choice = in.nextInt();
-
-        if(choice == 0){
-            System.out.print("Enter position on error: ");
-            int errorPos = in.nextInt();
-
-            if(copy.charAt(errorPos) == '1')
-                copy = copy.substring(0,errorPos) + "0" + copy.substring(errorPos+1);
-            else
-                copy = copy.substring(0,errorPos) + "1" + copy.substring(errorPos+1);
-
-            System.out.println("Errorneous data: "+copy);
-            copy=ob.divide(copy);
-            System.out.println("Remainder for error detection: "+copy);
-            System.out.println("Error detected");
+        System.out.print("Enter polynomial at receiver's end: ");
+        code=in.nextLine();
+        n=code.length();
+        copy=code;
+        code+=zero;
+        code=ob.divide(code);
+        copy=copy.substring(0,n)+code.substring(n);
+        if (copy.equals(results)==true)
+        {
+            System.out.println("No Error Detected");
         }
         else
         {
-            copy=ob.divide(copy);
-            System.out.println("Remainder for error detection: "+copy);
-            System.out.println("No Error detection");
+            System.out.println("Received codeword: "+copy);
+            System.out.println("Error detected");
         }
     }
-
     public String divide(String s){
         int i,j;
         char x;
